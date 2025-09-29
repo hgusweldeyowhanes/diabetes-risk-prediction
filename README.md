@@ -250,6 +250,6 @@ Data Balancing: SMOTE for handling imbalanced datasets
 
     Enhance visualization with interactive charts
 ## 📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 ## ⚠️ Disclaimer
 This project is developed for educational and demonstration purposes only.
