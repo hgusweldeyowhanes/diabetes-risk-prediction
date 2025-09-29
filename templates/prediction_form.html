@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Prediction Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .form-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+        }
+        .form-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .btn-predict {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 40px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+        .btn-predict:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+        .nav-back {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .nav-back:hover {
+            color: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}">
+                🩺 Diabetes Predictor
+            </a>
+            <a href="{% url 'home' %}" class="nav-back">← Back to Home</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="form-container">
+            <div class="form-header">
+                <h1>Diabetes Risk Assessment</h1>
+                <p class="lead">Enter patient health information to predict diabetes risk</p>
+            </div>
+
+            {% if error %}
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error:</strong> {{ error }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                
+                <div class="form-section">
+                    <h4 class="mb-4 text-primary">Patient Health Information</h4>
+                    
+                    <div class="row">
+                        <!-- Column 1 -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="{{ form.pregnancies.id_for_label }}" class="form-label">
+                                    👶 {{ form.pregnancies.label }}
+                                </label>
+                                {{ form.pregnancies }}
+                                <div class="form-text">Number of times pregnant</div>
+                                {% if form.pregnancies.errors %}
+                                <div class="text-danger small">
+                                    {{ form.pregnancies.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.glucose.id_for_label }}" class="form-label">
+                                    🩸 {{ form.glucose.label }}
+                                </label>
+                                {{ form.glucose }}
+                                <div class="form-text">Plasma glucose concentration (mg/dL)</div>
+                                {% if form.glucose.errors %}
+                                <div class="text-danger small">
+                                    {{ form.glucose.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.blood_pressure.id_for_label }}" class="form-label">
+                                    💓 {{ form.blood_pressure.label }}
+                                </label>
+                                {{ form.blood_pressure }}
+                                <div class="form-text">Diastolic blood pressure (mm Hg)</div>
+                                {% if form.blood_pressure.errors %}
+                                <div class="text-danger small">
+                                    {{ form.blood_pressure.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.skin_thickness.id_for_label }}" class="form-label">
+                                    📏 {{ form.skin_thickness.label }}
+                                </label>
+                                {{ form.skin_thickness }}
+                                <div class="form-text">Triceps skin fold thickness (mm)</div>
+                                {% if form.skin_thickness.errors %}
+                                <div class="text-danger small">
+                                    {{ form.skin_thickness.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <!-- Column 2 -->
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="{{ form.insulin.id_for_label }}" class="form-label">
+                                    💉 {{ form.insulin.label }}
+                                </label>
+                                {{ form.insulin }}
+                                <div class="form-text">2-Hour serum insulin (mu U/ml)</div>
+                                {% if form.insulin.errors %}
+                                <div class="text-danger small">
+                                    {{ form.insulin.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.bmi.id_for_label }}" class="form-label">
+                                    ⚖️ {{ form.bmi.label }}
+                                </label>
+                                {{ form.bmi }}
+                                <div class="form-text">Body mass index (weight in kg/(height in m)²)</div>
+                                {% if form.bmi.errors %}
+                                <div class="text-danger small">
+                                    {{ form.bmi.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.diabetes_pedigree_function.id_for_label }}" class="form-label">
+                                    🧬 {{ form.diabetes_pedigree_function.label }}
+                                </label>
+                                {{ form.diabetes_pedigree_function }}
+                                <div class="form-text">Diabetes pedigree function</div>
+                                {% if form.diabetes_pedigree_function.errors %}
+                                <div class="text-danger small">
+                                    {{ form.diabetes_pedigree_function.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="form-group">
+                                <label for="{{ form.age.id_for_label }}" class="form-label">
+                                    👨‍🦳 {{ form.age.label }}
+                                </label>
+                                {{ form.age }}
+                                <div class="form-text">Age in years</div>
+                                {% if form.age.errors %}
+                                <div class="text-danger small">
+                                    {{ form.age.errors }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-predict">
+                        🚀 Predict Diabetes Risk
+                    </button>
+                    <p class="text-muted mt-2">Our AI will analyze the data using multiple machine learning models</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Add real-time validation and better UX
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="number"]');
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.value < this.min) {
+                        this.value = this.min;
+                    }
+                    if (this.value > this.max) {
+                        this.value = this.max;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
