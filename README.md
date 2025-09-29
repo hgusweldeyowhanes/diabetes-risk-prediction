@@ -15,14 +15,14 @@ A comprehensive machine learning web application that predicts diabetes risk usi
   * [Installation](#installation)
   * [Directory Tree](#-directory-tree)
   * [Usage](#-usage)
-  * [Machine Learning Models](#🧠machine-learning-models)
-  * [API Documentation](#📊api-documentation)
-  * [Technology Stack](#🛠️-technology-stack)
-  * [Dataset](#📈dataset)
-  * [Results](#📊results)
-  * [Conclusion](#🎯conclusion)
-  * [License](#📄license)
-  * [Disclaimer](#⚠️disclaimer)
+  * [Machine Learning Models](#-machine-learning-models)
+  * [API Documentation](#-api-documentation)
+  * [Technology Stack](#-technology-stack)
+  * [Dataset](#-dataset)
+  * [Results](#-results)
+  * [Conclusion](#-conclusion)
+  * [License](#-license)
+  * [Disclaimer](#-disclaimer)
 
   ## 🎯 Introduction
  
