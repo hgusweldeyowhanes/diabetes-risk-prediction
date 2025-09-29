@@ -9,21 +9,20 @@ A comprehensive machine learning web application that predicts diabetes risk usi
 
 ![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/home-page.PNG)
 ![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/diabets_butten_input.PNG)
-## Table of Content
-  * [Introduction](#introduction)
-  * [Features](#features)
-  * [Demo](#demo)
+## 📖Table of Content
+  * [Introduction](#🎯-introduction)
+  * [Features](#🌟-features)
   * [Installation](#installation)
-  * [Directory Tree](#directory-tree)
-  * [Usage](#usage)
-  * [Machine Learning Models](#machine-learning-models)
-  * [API Documentation](#api-documentation)
-  * [Technology Stack](#technology-stack)
-  * [Dataset](#dataset)
-  * [Results](#results)
-  * [Conclusion](#conclusion)
-  * [License](#license)
-  * [Disclaimer](#disclaimer)
+  * [Directory Tree](#📁-directory-tree)
+  * [Usage](#💻-usage)
+  * [Machine Learning Models](#🧠-machine-learning-models)
+  * [API Documentation](#📊-api-documentation)
+  * [Technology Stack](#🛠️-technology-stack)
+  * [Dataset](#📈-dataset)
+  * [Results](#📊-results)
+  * [Conclusion](#🎯-conclusion)
+  * [License](#📄-license)
+  * [Disclaimer](#⚠️-disclaimer)
 
   ## 🎯 Introduction
  
@@ -42,11 +41,6 @@ The Diabetes Risk Prediction System is an intelligent web application that lever
 - **💻 Web Interface**: Beautiful, responsive Django frontend
 - **📈 Model Performance**: Accuracy metrics and confidence scores
 - **🔄 Data Augmentation**: SMOTE for handling imbalanced data
-
-## 📸 Demo
-
-### Application Screenshots
-
 
 ## Installation
 
