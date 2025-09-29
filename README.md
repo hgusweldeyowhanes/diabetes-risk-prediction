@@ -8,7 +8,7 @@ A comprehensive machine learning web application that predicts diabetes risk usi
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
 ![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/home-page.PNG)
-
+![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/diabets_butten_input.PNG)
 ## Table of Content
   * [Introduction](#introduction)
   * [Features](#features)
@@ -169,8 +169,8 @@ Data Balancing: SMOTE for handling imbalanced datasets
   "analytics": {
     "svm_accuracy_test": 0.851,
     "rf_accuracy_test": 0.823,
-    "plots": { ... },
-    "feature_importance": { ... }
+    "plots": {  },
+    "feature_importance": {  }
   }
 }
 ```
@@ -200,9 +200,9 @@ Data Balancing: SMOTE for handling imbalanced datasets
     Charts: Matplotlib (server-side)
 ## 📈 Dataset
 ### Overview
-    Source: Pima Indians Diabetes Database (Kaggle)
+    Source:  Diabetes Database (Kaggle)
 
-    Records: 768 patient entries
+    Records: 2000 patient entries
 
     Features: 8 medical parameters
 
@@ -220,6 +220,10 @@ Data Balancing: SMOTE for handling imbalanced datasets
 |Age                 |    Age in years	     |  21-81       |
 
 ## 📊 Results
+![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/model_pred.PNG)
+![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/model_analytics.PNG)
+![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/feature-importance.PNG)
+
 ### Model Performance
 |Metric	| SVM Ensemble	| Random Forest|
 |---------|--------------|-------------|
@@ -231,9 +235,13 @@ Data Balancing: SMOTE for handling imbalanced datasets
 ## 🎯 Conclusion
 ### Key Achievements
 ✅ Successful Implementation: Built a fully functional diabetes prediction system
+
 ✅ Dual Model Approach: Enhanced reliability through ensemble methods
+
 ✅ User-Friendly Interface: Intuitive web application for easy usage
+
 ✅ Comprehensive Analytics: Detailed insights into model performance
+
 ✅ REST API: Programmatic access for integration
 ### Future Enhancements
     Deploy to cloud platform (Heroku/AWS)
