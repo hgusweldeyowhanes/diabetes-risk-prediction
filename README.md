@@ -1,11 +1,9 @@
 # 🩺 Diabetes Risk Prediction System
+## System Overview
 
-A comprehensive machine learning web application that predicts diabetes risk using multiple AI algorithms with a user-friendly Django interface.
-
-![Django](https://img.shields.io/badge/Django-4.2-green)
-![Python](https://img.shields.io/badge/Python-3.9-blue)
-![Machine Learning](https://img.shields.io/badge/ML-Scikit--learn-orange)
-![License](https://img.shields.io/badge/License-MIT-yellow)
+A comprehensive machine learning web application that predicts diabetes risk using multiple AI algorithms with a user-friendly Django interface. The system analyzes patient health parameters through an ensemble of sophisticated ML models to provide accurate diabetes risk assessment with detailed analytics and visualizations.
+## 🎯 Core Purpose
+To enable early detection and risk assessment of diabetes by leveraging artificial intelligence to analyze key health indicators, providing healthcare professionals and individuals with reliable, data-driven insights for preventive healthcare decisions.
 
 ![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/home-page.PNG)
 ![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/home-page1.PNG)
@@ -78,6 +76,11 @@ diabetes-risk-prediction/
 ├── manage.py
 ├── diabetes.csv                 # Dataset
 ├── requirements.txt 
+├── images/
+|   ├──diabetic_prediction_result.png
+|   ├──diabetic_butten_input.png
+|   ├──home_page.png
+|   ├──model_confusion_matrix
 ├── templates/
 |   ├── home.html
 |   ├── predict_form.html
@@ -86,9 +89,11 @@ diabetes-risk-prediction/
 │   ├── settings.py
 │   ├── urls.py
 │   └── wsgi.py
-└── Diabetic_Prediction/               # Main application
+└── Diabetic_Prediction/   # Main application
+    ├── admin.py
+    ├── models.py               
     ├── views.py               # Web views and API
-    ├── forms.py              # Input forms
+    ├── serializers.py              # Input forms
     ├── urls.py              # App URLs
     └── utils/
         ├── ml_model.py      # Machine learning core
@@ -196,13 +201,11 @@ Data Balancing: SMOTE for handling imbalanced datasets
     Charts: Matplotlib (server-side)
 ## 📈 Dataset
 ### Overview
-    Source:  Diabetes Database (Kaggle)
-
-    Records: 2000 patient entries
-
-    Features: 8 medical parameters
-
+    Source: Pima Indians Diabetes Database (Kaggle)
+    Records: 2,000 patient clinical entries
+    Features: 8 medical parameters + 1 target variable
     Target: Binary classification (Diabetic/Non-Diabetic)
+    Timeframe: Contemporary medical data collection
 ### Feature Description
 | Feature	| Description	| Range  |
 |--------------|----------------|-------------|

@@ -3,14 +3,13 @@ import numpy as np
 import warnings
 import io
 import base64
+import joblib
+from django.core.files.base import ContentFile
+from django.utils import timezone
 import matplotlib
-matplotlib.use('Agg')  # Fix threading issues
+matplotlib.use('Agg')  
 import matplotlib.pyplot as plt
 import seaborn as sns
-
-# Suppress FutureWarnings from scikit-learn
-warnings.filterwarnings('ignore', category=FutureWarning)
-
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.preprocessing import StandardScaler, RobustScaler
@@ -19,6 +18,10 @@ from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.calibration import CalibratedClassifierCV
 from imblearn.over_sampling import SMOTE
+from Diabetic_Prediction.models import MLModel, Prediction, ModelPerformance, FeatureStatistics
+
+warnings.filterwarnings('ignore', category=FutureWarning)
+
 
 class DiabetesPredictor:
     def __init__(self):
@@ -36,9 +39,15 @@ class DiabetesPredictor:
             'Pregnancies', 'Glucose', 'BloodPressure', 'SkinThickness',
             'Insulin', 'BMI', 'DiabetesPedigreeFunction', 'Age'
         ]
+         # Django model references for all models
+        self.django_model = None  
+        self.ensemble_model = None
+        self.svm_linear_django_model = None
+        self.svm_rbf_django_model = None
+        self.rf_django_model = None # Primary model (rf)
         
     def load_and_train(self):
-        """Load data and train models with updated validation"""
+        """Load data and train models with database integration"""
         try:
             # Load data
             data = pd.read_csv('diabetes.csv')
@@ -114,7 +123,14 @@ class DiabetesPredictor:
             print(f"Best RF parameters: {grid_search.best_params_}")
             print(f"Best RF score: {grid_search.best_score_:.4f}")
             
-            # Print individual model accuracies
+            # Calculate metrics for database storage
+            ensemble_metrics = self._calculate_performance_metrics(self.ensemble_classifier, X_test_scaled, "Ensemble")
+            rf_metrics = self._calculate_performance_metrics(self.best_rf_model, self.X_test, "Random Forest")
+            
+            self._save_model_to_db(ensemble_metrics, rf_metrics)
+            
+            self._save_feature_statistics()
+            
             self._print_model_performance(X_test_scaled)
             
             self.is_trained = True
@@ -123,6 +139,110 @@ class DiabetesPredictor:
         except Exception as e:
             print(f"Error in training: {str(e)}")
             return False
+    def _save_model_to_db(self, ensemble_metrics, rf_metrics):
+        """Save all trained models information to database"""
+        try:
+            # Calculate metrics for all models
+            X_test_scaled = self.scaler.transform(self.X_test)
+            
+            ensemble_metrics = self._calculate_performance_metrics(self.ensemble_classifier, X_test_scaled, "Ensemble")
+            svm_linear_metrics = self._calculate_performance_metrics(self.svm_linear_model, X_test_scaled, "SVM Linear")
+            svm_rbf_metrics = self._calculate_performance_metrics(self.svm_rbf_model, X_test_scaled, "SVM RBF")
+            rf_metrics = self._calculate_performance_metrics(self.best_rf_model, self.X_test, "Random Forest")
+            
+            self.ensemble_model, created = MLModel.objects.update_or_create(
+                name='Diabetes Ensemble Predictor',
+                model_type='ensemble',
+                defaults={
+                    'accuracy': ensemble_metrics.get('accuracy', 0),
+                    'precision': ensemble_metrics.get('precision', 0),
+                    'recall': ensemble_metrics.get('recall', 0),
+                    'f1_score': ensemble_metrics.get('f1', 0),
+                    'feature_importance': self._get_feature_importance(),
+                    'trained_on': timezone.now(),
+                    'is_active': False,
+                }
+            )
+            
+            self.svm_linear_django_model, created = MLModel.objects.update_or_create(
+                name='Diabetes SVM Linear Predictor',
+                model_type='svm',
+                defaults={
+                    'accuracy': svm_linear_metrics.get('accuracy', 0),
+                    'precision': svm_linear_metrics.get('precision', 0),
+                    'recall': svm_linear_metrics.get('recall', 0),
+                    'f1_score': svm_linear_metrics.get('f1', 0),
+                    'feature_importance': self._get_feature_importance(),
+                    'trained_on': timezone.now(),
+                    'is_active': False,  
+                }
+            )
+            
+            self.svm_rbf_django_model, created = MLModel.objects.update_or_create(
+                name='Diabetes SVM RBF Predictor',
+                model_type='svm',
+                defaults={
+                    'accuracy': svm_rbf_metrics.get('accuracy', 0),
+                    'precision': svm_rbf_metrics.get('precision', 0),
+                    'recall': svm_rbf_metrics.get('recall', 0),
+                    'f1_score': svm_rbf_metrics.get('f1', 0),
+                    'feature_importance': self._get_feature_importance(),
+                    'trained_on': timezone.now(),
+                    'is_active': False,  
+                }
+            )
+            
+            self.rf_django_model, created = MLModel.objects.update_or_create(
+                name='Diabetes Random Forest Predictor',
+                model_type='random_forest',
+                defaults={
+                    'accuracy': rf_metrics.get('accuracy', 0),
+                    'precision': rf_metrics.get('precision', 0),
+                    'recall': rf_metrics.get('recall', 0),
+                    'f1_score': rf_metrics.get('f1', 0),
+                    'feature_importance': self._get_feature_importance(),
+                    'trained_on': timezone.now(),
+                    'is_active': True,  
+                }
+            )
+            
+            models_and_metrics = [
+                (self.ensemble_model, ensemble_metrics),
+                (self.svm_linear_django_model, svm_linear_metrics),
+                (self.svm_rbf_django_model, svm_rbf_metrics),
+                (self.rf_django_model, rf_metrics)
+            ]
+            
+            for django_model, metrics in models_and_metrics:
+                ModelPerformance.objects.create(
+                    ml_model=django_model,
+                    accuracy=metrics.get('accuracy', 0),
+                    precision=metrics.get('precision', 0),
+                    recall=metrics.get('recall', 0),
+                    f1_score=metrics.get('f1', 0),
+                    test_size=len(self.y_test)
+                )
+            
+        except Exception as e:
+            print(f"Error saving models to database: {e}")
+    def _save_feature_statistics(self):
+        """Save feature statistics to database"""
+        try:
+            for feature in self.X_train.columns:
+                FeatureStatistics.objects.update_or_create(
+                    ml_model=self.django_model,
+                    feature_name=feature,
+                    defaults={
+                        'mean_value': float(self.X_train[feature].mean()),
+                        'std_value': float(self.X_train[feature].std()),
+                        'min_value': float(self.X_train[feature].min()),
+                        'max_value': float(self.X_train[feature].max()),
+                        'importance_score': float(self._get_feature_importance().get(feature, 0)),
+                    }
+                )
+            print("Feature statistics saved to database")
+        except Exception as e:
+            print(f"Error saving feature statistics: {e}")
 
     def _create_features(self, X):
         """Create additional features to help the model"""
@@ -153,7 +273,6 @@ class DiabetesPredictor:
 
     def _prepare_input_data(self, input_data):
         """Prepare input data with the same feature engineering as training"""
-        # Convert to DataFrame
         input_df = pd.DataFrame([input_data])
         
         # Ensure all original features are present
@@ -166,10 +285,7 @@ class DiabetesPredictor:
         
         return input_engineered
 
-    def _print_model_performance(self, X_test_scaled):
-        """Print performance metrics of all individual models"""
-        print("\n=== MODEL PERFORMANCE METRICS ===")
-        
+    def _print_model_performance(self, X_test_scaled): 
         # Ensemble metrics
         ensemble_pred = self.ensemble_classifier.predict(X_test_scaled)
         ensemble_metrics = self._calculate_metrics(self.y_test, ensemble_pred)
@@ -199,8 +315,8 @@ class DiabetesPredictor:
             'f1': f1_score(y_true, y_pred, zero_division=0)
         }
 
-    def predict(self, input_data):
-        """Make predictions with individual model outputs"""
+    def predict(self, input_data, request=None):
+        """Make predictions with individual model outputs and save to database"""
         if not self.is_trained:
             return {"error": "Models not trained yet"}
         
@@ -221,6 +337,11 @@ class DiabetesPredictor:
             predictions = [ensemble_predictions[0], svm_linear_predictions[0], svm_rbf_predictions[0], rf_predictions[0]]
             final_prediction = max(set(predictions), key=predictions.count)
             
+            # Save prediction to database
+            prediction_instance = self._save_prediction_to_db(
+                input_data, input_engineered.iloc[0].to_dict(), final_prediction, request
+            )
+            
             analytics = self._generate_analytics()
             
             return {
@@ -230,12 +351,48 @@ class DiabetesPredictor:
                 'svm_rbf_prediction': int(svm_rbf_predictions[0]),
                 'rf_prediction': int(rf_predictions[0]),
                 'analytics': analytics,
-                'feature_analysis': self._analyze_prediction_features(input_engineered.iloc[0])
+                'feature_analysis': self._analyze_prediction_features(input_engineered.iloc[0]),
+                'prediction_id': prediction_instance.id if prediction_instance else None,
             }
             
         except Exception as e:
             return {"error": f"Prediction error: {e}"}
 
+    def _save_prediction_to_db(self, original_input, engineered_input, prediction, request):
+        """Save prediction to database"""
+        try:
+            if not self.django_model:
+                print("No Django model reference available")
+                return None
+                
+            prediction_instance = Prediction.objects.create(
+                ml_model=self.django_model,
+                pregnancies=original_input['Pregnancies'],
+                glucose=original_input['Glucose'],
+                blood_pressure=original_input['BloodPressure'],
+                skin_thickness=original_input['SkinThickness'],
+                insulin=original_input['Insulin'],
+                bmi=original_input['BMI'],
+                diabetes_pedigree_function=original_input['DiabetesPedigreeFunction'],
+                age=original_input['Age'],
+                bmi_age_interaction=engineered_input.get('BMI_Age_Interaction'),
+                glucose_bmi_ratio=engineered_input.get('Glucose_BMI_Ratio'),
+                prediction_result=bool(prediction),
+                feature_analysis=self._analyze_prediction_features(pd.Series(engineered_input)),
+            )
+            
+            # Add request metadata if available
+            if request:
+                prediction_instance.session_id = request.session.session_key or 'unknown'
+                prediction_instance.ip_address = self._get_client_ip(request)
+                prediction_instance.save()
+            
+            print(f"Prediction saved to database with ID: {prediction_instance.id}")
+            return prediction_instance
+            
+        except Exception as e:
+            print(f"Error saving prediction to database: {e}")
+            return None
     def _analyze_prediction_features(self, features):
         """Analyze which features are driving the prediction"""
         importance_dict = self._get_feature_importance()
@@ -255,7 +412,7 @@ class DiabetesPredictor:
             feature_analysis.items(), 
             key=lambda x: abs(x[1]['contribution']), 
             reverse=True
-        )[:5])  # Top 5 features
+        )[:5]) 
         
         return sorted_analysis
 

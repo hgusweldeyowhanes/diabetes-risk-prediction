@@ -64,7 +64,7 @@ class DiabetesPredictionView(View):
                     })
             
             # Make prediction
-            result = predictor.predict(input_data)
+            result = predictor.predict(input_data,request)
             
             if 'error' in result:
                 return render(request, self.template_name, {
