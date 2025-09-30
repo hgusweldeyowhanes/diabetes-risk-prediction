@@ -226,11 +226,11 @@ Data Balancing: SMOTE for handling imbalanced datasets
 |SVM Linear | 78.6%| 80.7%|    74.9%|      77.7%|
 |SVM RBF | 77.0%| 77.7% | 75.7% |76.7%|
 |RandomForest| 98.3% | 97.7% |98.9%| 98.3% |
-|-------------|-------|--------|-----------|
+
 
 
 ![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/model_performance_metrics.PNG)
-![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/confusion_matrix.PNG)
+![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/model_confusion_matrix.PNG)
 
 ## 🎯 Conclusion
 ### Key Achievements
