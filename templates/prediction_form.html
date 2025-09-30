@@ -56,6 +56,15 @@
         .nav-back:hover {
             color: #764ba2;
         }
+        .is-invalid {
+            border-color: #dc3545;
+            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
     </style>
 </head>
 <body>
@@ -83,6 +92,13 @@
             </div>
             {% endif %}
 
+            {% if errors %}
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Validation Error:</strong> Please correct the errors below.
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endif %}
+
             <form method="post">
                 {% csrf_token %}
                 
@@ -92,54 +108,86 @@
                     <div class="row">
                         <!-- Column 1 -->
                         <div class="col-md-6">
+                            <!-- Pregnancies Field -->
                             <div class="form-group">
-                                <label for="{{ form.pregnancies.id_for_label }}" class="form-label">
-                                    👶 {{ form.pregnancies.label }}
+                                <label for="pregnancies" class="form-label">
+                                    👶 Pregnancies
                                 </label>
-                                {{ form.pregnancies }}
+                                <input type="number" 
+                                       class="form-control {% if errors.pregnancies %}is-invalid{% endif %}" 
+                                       id="pregnancies" 
+                                       name="pregnancies" 
+                                       min="0" 
+                                       max="20" 
+                                       value="{{ submitted_data.pregnancies|default:'' }}"
+                                       required>
                                 <div class="form-text">Number of times pregnant</div>
-                                {% if form.pregnancies.errors %}
-                                <div class="text-danger small">
-                                    {{ form.pregnancies.errors }}
+                                {% if errors.pregnancies %}
+                                <div class="error-message">
+                                    {{ errors.pregnancies.0 }}
                                 </div>
                                 {% endif %}
                             </div>
 
+                            <!-- Glucose Field -->
                             <div class="form-group">
-                                <label for="{{ form.glucose.id_for_label }}" class="form-label">
-                                    🩸 {{ form.glucose.label }}
+                                <label for="glucose" class="form-label">
+                                    🩸 Glucose Level
                                 </label>
-                                {{ form.glucose }}
+                                <input type="number" 
+                                       class="form-control {% if errors.glucose %}is-invalid{% endif %}" 
+                                       id="glucose" 
+                                       name="glucose" 
+                                       min="0" 
+                                       max="400" 
+                                       value="{{ submitted_data.glucose|default:'' }}"
+                                       required>
                                 <div class="form-text">Plasma glucose concentration (mg/dL)</div>
-                                {% if form.glucose.errors %}
-                                <div class="text-danger small">
-                                    {{ form.glucose.errors }}
+                                {% if errors.glucose %}
+                                <div class="error-message">
+                                    {{ errors.glucose.0 }}
                                 </div>
                                 {% endif %}
                             </div>
 
+                            <!-- Blood Pressure Field -->
                             <div class="form-group">
-                                <label for="{{ form.blood_pressure.id_for_label }}" class="form-label">
-                                    💓 {{ form.blood_pressure.label }}
+                                <label for="blood_pressure" class="form-label">
+                                    💓 Blood Pressure
                                 </label>
-                                {{ form.blood_pressure }}
+                                <input type="number" 
+                                       class="form-control {% if errors.blood_pressure %}is-invalid{% endif %}" 
+                                       id="blood_pressure" 
+                                       name="blood_pressure" 
+                                       min="0" 
+                                       max="202" 
+                                       value="{{ submitted_data.blood_pressure|default:'' }}"
+                                       required>
                                 <div class="form-text">Diastolic blood pressure (mm Hg)</div>
-                                {% if form.blood_pressure.errors %}
-                                <div class="text-danger small">
-                                    {{ form.blood_pressure.errors }}
+                                {% if errors.blood_pressure %}
+                                <div class="error-message">
+                                    {{ errors.blood_pressure.0 }}
                                 </div>
                                 {% endif %}
                             </div>
 
+                            <!-- Skin Thickness Field -->
                             <div class="form-group">
-                                <label for="{{ form.skin_thickness.id_for_label }}" class="form-label">
-                                    📏 {{ form.skin_thickness.label }}
+                                <label for="skin_thickness" class="form-label">
+                                    📏 Skin Thickness
                                 </label>
-                                {{ form.skin_thickness }}
+                                <input type="number" 
+                                       class="form-control {% if errors.skin_thickness %}is-invalid{% endif %}" 
+                                       id="skin_thickness" 
+                                       name="skin_thickness" 
+                                       min="0" 
+                                       max="200" 
+                                       value="{{ submitted_data.skin_thickness|default:'' }}"
+                                       required>
                                 <div class="form-text">Triceps skin fold thickness (mm)</div>
-                                {% if form.skin_thickness.errors %}
-                                <div class="text-danger small">
-                                    {{ form.skin_thickness.errors }}
+                                {% if errors.skin_thickness %}
+                                <div class="error-message">
+                                    {{ errors.skin_thickness.0 }}
                                 </div>
                                 {% endif %}
                             </div>
@@ -147,54 +195,88 @@
 
                         <!-- Column 2 -->
                         <div class="col-md-6">
+                            <!-- Insulin Field -->
                             <div class="form-group">
-                                <label for="{{ form.insulin.id_for_label }}" class="form-label">
-                                    💉 {{ form.insulin.label }}
+                                <label for="insulin" class="form-label">
+                                    💉 Insulin Level
                                 </label>
-                                {{ form.insulin }}
+                                <input type="number" 
+                                       class="form-control {% if errors.insulin %}is-invalid{% endif %}" 
+                                       id="insulin" 
+                                       name="insulin" 
+                                       min="0" 
+                                       max="900" 
+                                       value="{{ submitted_data.insulin|default:'' }}"
+                                       required>
                                 <div class="form-text">2-Hour serum insulin (mu U/ml)</div>
-                                {% if form.insulin.errors %}
-                                <div class="text-danger small">
-                                    {{ form.insulin.errors }}
+                                {% if errors.insulin %}
+                                <div class="error-message">
+                                    {{ errors.insulin.0 }}
                                 </div>
                                 {% endif %}
                             </div>
 
+                            <!-- BMI Field -->
                             <div class="form-group">
-                                <label for="{{ form.bmi.id_for_label }}" class="form-label">
-                                    ⚖️ {{ form.bmi.label }}
+                                <label for="bmi" class="form-label">
+                                    ⚖️ BMI
                                 </label>
-                                {{ form.bmi }}
+                                <input type="number" 
+                                       class="form-control {% if errors.bmi %}is-invalid{% endif %}" 
+                                       id="bmi" 
+                                       name="bmi" 
+                                       min="0.0" 
+                                       max="70.0" 
+                                       step="0.1" 
+                                       value="{{ submitted_data.bmi|default:'' }}"
+                                       required>
                                 <div class="form-text">Body mass index (weight in kg/(height in m)²)</div>
-                                {% if form.bmi.errors %}
-                                <div class="text-danger small">
-                                    {{ form.bmi.errors }}
+                                {% if errors.bmi %}
+                                <div class="error-message">
+                                    {{ errors.bmi.0 }}
                                 </div>
                                 {% endif %}
                             </div>
 
+                            <!-- Diabetes Pedigree Function Field -->
                             <div class="form-group">
-                                <label for="{{ form.diabetes_pedigree_function.id_for_label }}" class="form-label">
-                                    🧬 {{ form.diabetes_pedigree_function.label }}
+                                <label for="diabetes_pedigree_function" class="form-label">
+                                    🧬 Diabetes Pedigree Function
                                 </label>
-                                {{ form.diabetes_pedigree_function }}
+                                <input type="number" 
+                                       class="form-control {% if errors.diabetes_pedigree_function %}is-invalid{% endif %}" 
+                                       id="diabetes_pedigree_function" 
+                                       name="diabetes_pedigree_function" 
+                                       min="0.0" 
+                                       max="3.0" 
+                                       step="0.001" 
+                                       value="{{ submitted_data.diabetes_pedigree_function|default:'' }}"
+                                       required>
                                 <div class="form-text">Diabetes pedigree function</div>
-                                {% if form.diabetes_pedigree_function.errors %}
-                                <div class="text-danger small">
-                                    {{ form.diabetes_pedigree_function.errors }}
+                                {% if errors.diabetes_pedigree_function %}
+                                <div class="error-message">
+                                    {{ errors.diabetes_pedigree_function.0 }}
                                 </div>
                                 {% endif %}
                             </div>
 
+                            <!-- Age Field -->
                             <div class="form-group">
-                                <label for="{{ form.age.id_for_label }}" class="form-label">
-                                    👨‍🦳 {{ form.age.label }}
+                                <label for="age" class="form-label">
+                                    👨‍🦳 Age
                                 </label>
-                                {{ form.age }}
+                                <input type="number" 
+                                       class="form-control {% if errors.age %}is-invalid{% endif %}" 
+                                       id="age" 
+                                       name="age" 
+                                       min="1" 
+                                       max="120" 
+                                       value="{{ submitted_data.age|default:'' }}"
+                                       required>
                                 <div class="form-text">Age in years</div>
-                                {% if form.age.errors %}
-                                <div class="text-danger small">
-                                    {{ form.age.errors }}
+                                {% if errors.age %}
+                                <div class="error-message">
+                                    {{ errors.age.0 }}
                                 </div>
                                 {% endif %}
                             </div>
@@ -221,13 +303,47 @@
             
             inputs.forEach(input => {
                 input.addEventListener('input', function() {
-                    if (this.value < this.min) {
-                        this.value = this.min;
-                    }
-                    if (this.value > this.max) {
-                        this.value = this.max;
+                    // Remove error styling when user starts typing
+                    this.classList.remove('is-invalid');
+                    
+                    // Validate min/max
+                    if (this.value !== '') {
+                        const value = parseFloat(this.value);
+                        const min = parseFloat(this.min);
+                        const max = parseFloat(this.max);
+                        
+                        if (value < min) {
+                            this.value = min;
+                        }
+                        if (value > max) {
+                            this.value = max;
+                        }
                     }
                 });
+
+                // Add blur validation
+                input.addEventListener('blur', function() {
+                    if (this.value === '' && this.hasAttribute('required')) {
+                        this.classList.add('is-invalid');
+                    }
+                });
+            });
+
+            // Form submission validation
+            const form = document.querySelector('form');
+            form.addEventListener('submit', function(e) {
+                let isValid = true;
+                inputs.forEach(input => {
+                    if (input.hasAttribute('required') && input.value === '') {
+                        input.classList.add('is-invalid');
+                        isValid = false;
+                    }
+                });
+                
+                if (!isValid) {
+                    e.preventDefault();
+                    alert('Please fill in all required fields.');
+                }
             });
         });
     </script>

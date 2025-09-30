@@ -8,6 +8,8 @@ A comprehensive machine learning web application that predicts diabetes risk usi
 ![License](https://img.shields.io/badge/License-MIT-yellow)
 
 ![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/home-page.PNG)
+![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/home-page1.PNG)
+
 ![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/diabets_butten_input.PNG)
 ## 📖Table of Content
   * [Introduction](#-introduction)
@@ -17,12 +19,12 @@ A comprehensive machine learning web application that predicts diabetes risk usi
   * [Usage](#-usage)
   * [Machine Learning Models](#-machine-learning-models)
   * [API Documentation](#-api-documentation)
-  * [Technology Stack](#-technology-stack)
+  * [Technology Stack](#technology-stack)
   * [Dataset](#-dataset)
   * [Results](#-results)
   * [Conclusion](#-conclusion)
   * [License](#-license)
-  * [Disclaimer](#-disclaimer)
+  * [Disclaimer](#disclaimer)
 
   ## 🎯 Introduction
  
@@ -168,7 +170,7 @@ Data Balancing: SMOTE for handling imbalanced datasets
   }
 }
 ```
-## 🛠️ Technology Stack
+## Technology Stack
 ### Backend Development
     Framework: Django 4.2
 
@@ -214,17 +216,19 @@ Data Balancing: SMOTE for handling imbalanced datasets
 |Age                 |    Age in years	     |  21-81       |
 
 ## 📊 Results
-![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/model_pred.PNG)
-![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/model_analytics.PNG)
-![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/feature-importance.PNG)
+![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/diabetic_prediction_result.PNG)
 
 ### Model Performance
-|Metric	| SVM Ensemble	| Random Forest|
-|---------|--------------|-------------|
-|Accuracy	|75%	|82%|
-|Precision	|76%	|84%|
-|Recall	|74%	|81%|
-|F1-Score	|75%	|82%|
+|Model |  Accuracy | Precision | Recall | F1-Score |
+|--------|---------|------------|---------|---------|
+|Ensemble |  77.6 %  |  79.4% |  74.5% | 76.9%  |
+|SVM Linear | 78.6%| 80.7%|    74.9%|      77.7%|
+|SVM RBF | 77.0%| 77.7% | 75.7% |76.7%|
+|RandomForest| 98.3% | 97.7% |98.9%| 98.3% |
+![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/model_performance_metrics.PNG)
+![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/confusion_matrix.PNG)
+
+
 
 ## 🎯 Conclusion
 ### Key Achievements
@@ -251,5 +255,5 @@ Data Balancing: SMOTE for handling imbalanced datasets
     Enhance visualization with interactive charts
 ## 📄 License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-## ⚠️ Disclaimer
+## Disclaimer
 This project is developed for educational and demonstration purposes only.
