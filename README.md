@@ -1,30 +1,30 @@
-# 🩺 Diabetes Risk Prediction System
+# Diabetes Risk Prediction System
 ## System Overview
 
 A comprehensive machine learning web application that predicts diabetes risk using multiple AI algorithms with a user-friendly Django interface. The system analyzes patient health parameters through an ensemble of sophisticated ML models to provide accurate diabetes risk assessment with detailed analytics and visualizations.
-## 🎯 Core Purpose
+## Core Purpose
 To enable early detection and risk assessment of diabetes by leveraging artificial intelligence to analyze key health indicators, providing healthcare professionals and individuals with reliable, data-driven insights for preventive healthcare decisions.
 
 ![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/home-page.PNG)
 ![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/home-page1.PNG)
 
 ![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/diabets_butten_input.PNG)
-## 📖Table of Content
-  * [Introduction](#-introduction)
-  * [Features](#-features)
+## Table of Content
+  * [Introduction](#introduction)
+  * [Features](#features)
   * [Installation](#installation)
-  * [Directory Tree](#-directory-tree)
-  * [Usage](#-usage)
-  * [Machine Learning Models](#-machine-learning-models)
-  * [API Documentation](#-api-documentation)
+  * [Directory Tree](#directory-tree)
+  * [Usage](#usage)
+  * [Machine Learning Models](#machine-learning-models)
+  * [API Documentation](#api-documentation)
   * [Technology Stack](#technology-stack)
-  * [Dataset](#-dataset)
-  * [Results](#-results)
-  * [Conclusion](#-conclusion)
-  * [License](#-license)
+  * [Dataset](#dataset)
+  * [Results](#results)
+  * [Conclusion](#conclusion)
+  * [License](#license)
   * [Disclaimer](#disclaimer)
 
-  ## 🎯 Introduction
+  ## Introduction
  
 The Diabetes Risk Prediction System is an intelligent web application that leverages machine learning to assess diabetes risk based on patient health parameters. Built with Django and Scikit-learn, it provides real-time predictions with comprehensive analytics and visualizations.
 **Key Highlights:**
@@ -33,14 +33,14 @@ The Diabetes Risk Prediction System is an intelligent web application that lever
 - Comprehensive visual analytics
 - RESTful API for integration
 - User-friendly web interface
-## 🌟 Features
+## Features
 
-- **🤖 Dual AI Models**: SVM Ensemble + Random Forest algorithms
-- **🎯 Real-time Predictions**: Instant diabetes risk assessment
-- **📊 Visual Analytics**: ROC curves, confusion matrices, feature importance
-- **💻 Web Interface**: Beautiful, responsive Django frontend
-- **📈 Model Performance**: Accuracy metrics and confidence scores
-- **🔄 Data Augmentation**: SMOTE for handling imbalanced data
+- **Dual AI Models**: SVM Ensemble + Random Forest algorithms
+- **Real-time Predictions**: Instant diabetes risk assessment
+- **Visual Analytics**: ROC curves, confusion matrices, feature importance
+- **Web Interface**: Beautiful, responsive Django frontend
+- **Model Performance**: Accuracy metrics and confidence scores
+- **Data Augmentation**: SMOTE for handling imbalanced data
 
 ## Installation
 
@@ -70,7 +70,7 @@ python manage.py runserver
 ```bash
 Open http://localhost:8000/
 ```
-## 📁 Directory Tree
+## Directory Tree
 ```text
 diabetes-risk-prediction/
 ├── manage.py
@@ -99,7 +99,7 @@ diabetes-risk-prediction/
         ├── ml_model.py      # Machine learning core
 ```
   
-## 💻 Usage
+## Usage
 ### Web Interface
 #### 1.Navigate to Home Page
 
@@ -121,7 +121,7 @@ diabetes-risk-prediction/
    - Explore visual analytics and charts
 
 
-## 🧠 Machine Learning Models
+## Machine Learning Models
 ### Algorithms Implemented
 |Algorithm	| Type   	|Purpose	|Accuracy|
 |-------------|---------|------------|--------|
@@ -138,7 +138,7 @@ Feature Scaling: StandardScaler for normalization
 
 Data Balancing: SMOTE for handling imbalanced datasets
 
-## 📊 API Documentation
+## API Documentation
 ### Endpoints
 | Method | Endpoint	| Description | Parameters|
 |---------|---------|-------------|-----------|
@@ -199,13 +199,13 @@ Data Balancing: SMOTE for handling imbalanced datasets
     Interactivity: JavaScript
 
     Charts: Matplotlib (server-side)
-## 📈 Dataset
+## Dataset
 ### Overview
-    Source: Pima Indians Diabetes Database (Kaggle)
-    Records: 2,000 patient clinical entries
-    Features: 8 medical parameters + 1 target variable
-    Target: Binary classification (Diabetic/Non-Diabetic)
-    Timeframe: Contemporary medical data collection
+  **Source:** Pima Indians Diabetes Database (Kaggle)
+  **Records:** 2,000 patient clinical entries
+  **Features:** 8 medical parameters + 1 target variable
+  **Target:** Binary classification (Diabetic/Non-Diabetic)
+  **Timeframe:** Contemporary medical data collection
 ### Feature Description
 | Feature	| Description	| Range  |
 |--------------|----------------|-------------|
@@ -218,7 +218,7 @@ Data Balancing: SMOTE for handling imbalanced datasets
 |DiabetesPedigreeFunction	|Diabetes pedigree function	|0.08-2.42|
 |Age                 |    Age in years	     |  21-81       |
 
-## 📊 Results
+## Results
 ![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/diabetic_prediction_result.PNG)
 
 ### Model Performance
@@ -235,17 +235,17 @@ Data Balancing: SMOTE for handling imbalanced datasets
 ![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/model_performance_metrics.PNG)
 ![image](https://raw.githubusercontent.com/hgusweldeyowhanes/diabetes-risk-prediction/main/images/model_confusion_matrix.PNG)
 
-## 🎯 Conclusion
+## Conclusion
 ### Key Achievements
-✅ Successful Implementation: Built a fully functional diabetes prediction system
+ **Successful Implementation:** Built a fully functional diabetes prediction system
 
-✅ Dual Model Approach: Enhanced reliability through ensemble methods
+ **Dual Model Approach:** Enhanced reliability through ensemble methods
 
-✅ User-Friendly Interface: Intuitive web application for easy usage
+ **User-Friendly Interface:** Intuitive web application for easy usage
 
-✅ Comprehensive Analytics: Detailed insights into model performance
+ **Comprehensive Analytics:** Detailed insights into model performance
 
-✅ REST API: Programmatic access for integration
+ **REST API:** Programmatic access for integration
 ### Future Enhancements
 ✅ Deploy to cloud platform (Heroku/AWS)
 
@@ -258,7 +258,7 @@ Data Balancing: SMOTE for handling imbalanced datasets
 ✅ Create mobile application
 
 ✅ Enhance visualization with interactive charts
-## 📄 License
+## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 ## Disclaimer
 This project is developed for educational and demonstration purposes only.
