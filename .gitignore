@@ -1,0 +1,36 @@
+# Django
+*.pyc
+__pycache__/
+db.sqlite3
+migrations/
+
+# Environment variables
+.env
+.venv
+venv/
+env/
+
+# Docker
+docker-compose.override.yml
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Static files
+/staticfiles/
+/media/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
