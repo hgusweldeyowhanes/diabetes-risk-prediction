@@ -1,36 +1,23 @@
-# Django
 *.pyc
 __pycache__/
+.db.sqlite3
 db.sqlite3
-migrations/
-
-# Environment variables
 .env
-.venv
+.venv/
 venv/
 env/
-
-# Docker
-docker-compose.override.yml
-
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-
-# Static files
-/staticfiles/
-/media/
-
-# Logs
+node_modules/
+dist/
 *.log
-
-# OS
 .DS_Store
 Thumbs.db
-
-# Coverage reports
 htmlcov/
 .coverage
 .coverage.*
+ml_artifacts/
+*.joblib
+backend/staticfiles/
+backend/media/
+docker-compose.override.yml
+.vscode/
+.idea/
