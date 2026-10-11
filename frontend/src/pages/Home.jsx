@@ -1,24 +1,24 @@
 import { Link } from 'react-router-dom'
+import Disclaimer from '../components/Disclaimer'
+import { useI18n } from '../i18n/I18nContext'
 
 export default function Home() {
+  const { t } = useI18n()
   return (
     <section className="home">
       <div className="home-copy">
-        <p className="eyebrow">Know your risk. Act early.</p>
-        <h1>GlycoPath</h1>
-        <p className="lede">
-          A clear diabetes risk score from your clinical markers—with
-          plain-language guidance and “what if I change…?” scenarios you can
-          discuss with a clinician.
-        </p>
+        <p className="eyebrow">{t('eyebrow')}</p>
+        <h1>{t('homeTitle')}</h1>
+        <p className="lede">{t('homeLede')}</p>
         <div className="cta-row">
           <Link className="btn primary" to="/predict">
-            Assess my risk
+            {t('ctaAssess')}
           </Link>
           <Link className="btn ghost" to="/analytics">
-            How the model works
+            {t('ctaInsights')}
           </Link>
         </div>
+        <Disclaimer />
       </div>
       <div className="home-visual" aria-hidden="true" />
     </section>
