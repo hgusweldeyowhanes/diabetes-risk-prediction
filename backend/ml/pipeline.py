@@ -962,6 +962,8 @@ class DiabetesPredictor:
                 bmi=original_input["BMI"],
                 diabetes_pedigree_function=original_input["DiabetesPedigreeFunction"],
                 age=original_input["Age"],
+                sex=extras.get("sex", ""),
+                screening=extras.get("screening"),
                 prediction_result=bool(prediction),
                 probability=float(proba),
                 confidence=float(max(proba, 1 - proba)),

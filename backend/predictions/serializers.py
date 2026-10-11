@@ -12,6 +12,10 @@ class BiomarkerInputSerializer(serializers.Serializer):
     bmi = serializers.FloatField(min_value=0.0, max_value=70.0)
     diabetes_pedigree_function = serializers.FloatField(min_value=0.0, max_value=3.0)
     age = serializers.IntegerField(min_value=1, max_value=120)
+    sex = serializers.ChoiceField(choices=["F", "M", "U"], required=False, default="U")
+    waist_cm = serializers.FloatField(min_value=40, max_value=200, required=False, allow_null=True)
+    physically_active = serializers.BooleanField(required=False, default=True)
+    family_history = serializers.BooleanField(required=False, default=False)
     patient_id = serializers.IntegerField(required=False, allow_null=True)
 
     def validate(self, data):
@@ -41,6 +45,8 @@ class PredictionSerializer(serializers.ModelSerializer):
             "bmi",
             "diabetes_pedigree_function",
             "age",
+            "sex",
+            "screening",
             "prediction_result",
             "probability",
             "risk_level",

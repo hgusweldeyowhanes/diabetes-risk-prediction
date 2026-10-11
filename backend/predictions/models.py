@@ -57,6 +57,8 @@ class Prediction(models.Model):
     bmi = models.FloatField()
     diabetes_pedigree_function = models.FloatField()
     age = models.IntegerField()
+    sex = models.CharField(max_length=1, blank=True)
+    screening = models.JSONField(null=True, blank=True)
 
     prediction_result = models.BooleanField()
     probability = models.FloatField(null=True, blank=True)
