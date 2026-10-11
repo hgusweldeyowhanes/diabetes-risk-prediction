@@ -3,6 +3,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from ml.clinical_screen import findrisc_screen
 from ml.model_loader import get_predictor
 from patients.models import Patient
 
@@ -13,17 +14,28 @@ from .serializers import (
     MLModelSerializer,
     PredictionSerializer,
 )
+from .throttles import PredictAnonThrottle, PredictUserThrottle
+
+DATASET_NOTE = (
+    "The lab model was trained on the Pima Indian Diabetes dataset: adult women, "
+    "2-hour OGTT glucose in mg/dL, and diastolic blood pressure. It is a screening "
+    "aid, not a diagnosis. Men and other groups should treat the score as approximate."
+)
 
 
 class PredictView(APIView):
     """Public predict endpoint (optional auth attaches user/patient)."""
 
     permission_classes = [permissions.AllowAny]
+    throttle_classes = [PredictAnonThrottle, PredictUserThrottle]
 
     def post(self, request):
         serializer = BiomarkerInputSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         data = serializer.validated_data
+        sex = data.get("sex") or "U"
+        if sex == "M":
+            data["pregnancies"] = 0
 
         predictor = get_predictor()
         if not predictor.is_trained:
@@ -56,6 +68,18 @@ class PredictView(APIView):
         if "error" in result:
             return Response(result, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+        screening = findrisc_screen(
+            age=data["age"],
+            bmi=data["bmi"],
+            sex=sex,
+            waist_cm=data.get("waist_cm"),
+            physically_active=data.get("physically_active", True),
+            family_history=data.get("family_history", False),
+        )
+        pred_id = result.get("prediction_id")
+        if pred_id:
+            Prediction.objects.filter(pk=pred_id).update(sex=sex, screening=screening)
+
         return Response(
             {
                 "status": "success",
@@ -78,6 +102,9 @@ class PredictView(APIView):
                 "counterfactuals": result.get("counterfactuals"),
                 "feature_analysis": result.get("feature_analysis"),
                 "techniques": result.get("techniques"),
+                "screening": screening,
+                "sex": sex,
+                "dataset_note": DATASET_NOTE,
                 "analytics": {
                     "ensemble_metrics": result.get("analytics", {}).get(
                         "ensemble_metrics", {}
@@ -92,7 +119,7 @@ class PredictView(APIView):
                         "subgroup_metrics", {}
                     ),
                 },
-                "prediction_id": result.get("prediction_id"),
+                "prediction_id": pred_id,
                 "input_data": input_data,
             }
         )
