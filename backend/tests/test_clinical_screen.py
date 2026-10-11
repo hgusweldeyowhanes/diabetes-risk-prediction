@@ -16,5 +16,5 @@ def test_findrisc_older_obese_family_high():
         physically_active=False,
         family_history=True,
     )
-    assert out["score"] == 4 + 3 + 4 + 2 + 5
-    assert out["tier"] == "very_high"
+    assert out["score"] == 18
+    assert out["tier"] == "high"

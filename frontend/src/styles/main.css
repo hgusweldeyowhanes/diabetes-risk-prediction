@@ -52,6 +52,29 @@ h1, h2, h3, .nav-brand {
   font-size: 0.95rem;
 }
 .nav-links a.active, .nav-links a:hover { color: var(--teal); }
+.nav-links { align-items: center; flex-wrap: wrap; }
+.linkish {
+  border: 0;
+  background: none;
+  font: inherit;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0;
+}
+.linkish:hover { color: var(--teal); }
+.lang-switch { display: flex; gap: 0.2rem; }
+.lang-switch button {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 999px;
+  padding: 0.2rem 0.5rem;
+  font-weight: 700;
+  font-size: 0.75rem;
+  cursor: pointer;
+  color: var(--muted);
+}
+.lang-switch button.is-on { background: var(--teal); color: #fff; border-color: var(--teal); }
 
 .home {
   display: grid;
@@ -116,13 +139,39 @@ h1, h2, h3, .nav-brand {
   margin-bottom: 1.2rem;
 }
 .field { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.9rem; font-weight: 600; }
-.field input {
+.field input, .field select {
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 0.55rem 0.7rem;
   font: inherit;
   background: #fff;
 }
+.field-help { font-weight: 500; color: var(--muted); line-height: 1.35; }
+.check-row { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem; }
+.check { display: flex; align-items: center; gap: 0.45rem; font-weight: 600; font-size: 0.92rem; }
+.notice {
+  background: rgba(181, 90, 43, 0.1);
+  border: 1px solid rgba(181, 90, 43, 0.25);
+  border-radius: 12px;
+  padding: 0.7rem 0.9rem;
+  color: var(--copper);
+  font-size: 0.92rem;
+}
+.disclaimer {
+  margin-top: 1.4rem;
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  border: 1px solid rgba(165, 38, 42, 0.2);
+  background: rgba(165, 38, 42, 0.06);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+.disclaimer.compact { margin: 0 0 1.1rem; }
+.disclaimer p { margin: 0.35rem 0 0; color: var(--muted); }
+.page-head { display: flex; justify-content: space-between; gap: 1rem; align-items: flex-start; flex-wrap: wrap; }
+.narrow { max-width: 28rem; }
+.screen-card { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px solid var(--line); }
+.screen-card h3 { margin: 0 0 0.3rem; }
 
 .risk-dashboard { margin: 1.2rem 0; }
 .risk-hero h2 { font-size: 2.2rem; margin: 0.2rem 0; }
@@ -168,4 +217,10 @@ th, td { text-align: left; padding: 0.45rem 0.3rem; border-bottom: 1px solid var
   .home { grid-template-columns: 1fr; }
   .panel-grid { grid-template-columns: 1fr; }
   .home-visual { min-height: 180px; }
+}
+
+@media print {
+  .no-print, .nav { display: none !important; }
+  .app-main { width: 100%; margin: 0; }
+  .disclaimer, .panel, .risk-dashboard { break-inside: avoid; }
 }

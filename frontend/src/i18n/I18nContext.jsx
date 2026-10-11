@@ -1,4 +1,4 @@
-import { createContext, useContext, useMemo, useState } from 'react'
+import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { DICTS } from './translations'
 
 const KEY = 'gp_lang'
@@ -9,6 +9,10 @@ export function I18nProvider({ children }) {
     const saved = localStorage.getItem(KEY)
     return DICTS[saved] ? saved : 'en'
   })
+
+  useEffect(() => {
+    document.documentElement.lang = lang
+  }, [lang])
 
   const value = useMemo(() => {
     const dict = DICTS[lang] || DICTS.en

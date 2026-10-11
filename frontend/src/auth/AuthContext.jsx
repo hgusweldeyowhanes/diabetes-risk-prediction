@@ -40,7 +40,13 @@ export function AuthProvider({ children }) {
       },
       async register(body) {
         await api.register(body)
-        return this.login(body.username, body.password)
+        const tokens = await api.login(body.username, body.password)
+        localStorage.setItem('gp_token', tokens.access)
+        localStorage.setItem('gp_refresh', tokens.refresh || '')
+        setToken(tokens.access)
+        const me = await api.me()
+        setUser(me)
+        return me
       },
       logout() {
         setToken('')

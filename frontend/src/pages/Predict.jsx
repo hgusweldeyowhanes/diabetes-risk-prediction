@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PatientForm from '../components/PatientForm'
+import Disclaimer from '../components/Disclaimer'
+import { useI18n } from '../i18n/I18nContext'
 import { api } from '../services/api'
 
 export default function Predict() {
+  const { t } = useI18n()
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const navigate = useNavigate()
@@ -24,11 +27,9 @@ export default function Predict() {
 
   return (
     <section className="page">
-      <h1>Clinical markers</h1>
-      <p className="lede short">
-        Enter values from a lab visit. Missing or zero readings for glucose,
-        blood pressure, BMI, or insulin are filled carefully by the model.
-      </p>
+      <h1>{t('predictTitle')}</h1>
+      <p className="lede short">{t('predictLede')}</p>
+      <Disclaimer compact />
       {error && <p className="error">{error}</p>}
       <PatientForm onSubmit={handleSubmit} loading={loading} />
     </section>

@@ -1,10 +1,9 @@
+import { useI18n } from '../i18n/I18nContext'
+
 export default function ResultsDisplay({ result }) {
+  const { t } = useI18n()
   if (!result) {
-    return (
-      <p className="muted">
-        No result yet. Run a prediction from the Predict page.
-      </p>
-    )
+    return <p className="muted">{t('noResult')}</p>
   }
 
   const guidance = result.clinical_guidance || []
@@ -15,7 +14,7 @@ export default function ResultsDisplay({ result }) {
     <div className="results-stack">
       {guidance.length > 0 && (
         <section className="panel">
-          <h3>Guidance</h3>
+          <h3>{t('guidance')}</h3>
           <ul>
             {guidance.map((g, i) => (
               <li key={i}>{g}</li>
@@ -26,14 +25,14 @@ export default function ResultsDisplay({ result }) {
 
       {local.length > 0 && (
         <section className="panel">
-          <h3>Local drivers</h3>
+          <h3>{t('drivers')}</h3>
           <table>
             <thead>
               <tr>
-                <th>Feature</th>
-                <th>Value</th>
-                <th>z</th>
-                <th>Role</th>
+                <th>{t('feature')}</th>
+                <th>{t('value')}</th>
+                <th>{t('z')}</th>
+                <th>{t('role')}</th>
               </tr>
             </thead>
             <tbody>
@@ -52,14 +51,14 @@ export default function ResultsDisplay({ result }) {
 
       {cfs.length > 0 && (
         <section className="panel">
-          <h3>What-if scenarios</h3>
+          <h3>{t('whatIf')}</h3>
           <table>
             <thead>
               <tr>
-                <th>Scenario</th>
-                <th>Probability</th>
-                <th>Δ</th>
-                <th>Tier</th>
+                <th>{t('scenario')}</th>
+                <th>{t('probability')}</th>
+                <th>{t('delta')}</th>
+                <th>{t('tier')}</th>
               </tr>
             </thead>
             <tbody>

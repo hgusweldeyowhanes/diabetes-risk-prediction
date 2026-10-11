@@ -1,20 +1,18 @@
 import { useEffect, useState } from 'react'
 import { api } from '../services/api'
+import { useI18n } from '../i18n/I18nContext'
 
 export default function Analytics() {
+  const { t } = useI18n()
   const [model, setModel] = useState(null)
   const [health, setHealth] = useState(null)
   const [error, setError] = useState('')
   const [techniques, setTechniques] = useState(null)
 
   useEffect(() => {
-    let raw
     try {
-      raw = sessionStorage.getItem('last_prediction')
-      if (raw) {
-        const r = JSON.parse(raw)
-        setTechniques(r.techniques)
-      }
+      const raw = sessionStorage.getItem('last_prediction')
+      if (raw) setTechniques(JSON.parse(raw).techniques)
     } catch {
       /* ignore */
     }
@@ -38,39 +36,40 @@ export default function Analytics() {
 
   return (
     <section className="page">
-      <h1>Model insights</h1>
-      <p className="lede short">
-        Live service status, training metrics, and the methods behind GlycoPath.
-      </p>
+      <h1>{t('insightsTitle')}</h1>
+      <p className="lede short">{t('insightsLede')}</p>
       {error && <p className="error">{error}</p>}
       <div className="panel-grid">
         <div className="panel">
-          <h3>Service</h3>
-          <p>Status: {health?.status || '…'}</p>
-          <p>Model ready: {String(health?.model_ready)}</p>
+          <h3>{t('service')}</h3>
+          <p>
+            {t('status')}: {health?.status || '…'}
+          </p>
+          <p>
+            {t('modelReady')}: {String(health?.model_ready)}
+          </p>
         </div>
         <div className="panel">
-          <h3>Active model</h3>
+          <h3>{t('activeModel')}</h3>
           {model ? (
             <>
               <p>{model.name}</p>
               <p>
-                Acc {((model.accuracy || 0) * 100).toFixed(1)}% · AUC{' '}
-                {(model.roc_auc || 0).toFixed(3)}
+                Acc {((model.accuracy || 0) * 100).toFixed(1)}% · AUC {(model.roc_auc || 0).toFixed(3)}
               </p>
             </>
           ) : (
-            <p className="muted">Train once via API prediction or manage.py train_model</p>
+            <p className="muted">{t('trainHint')}</p>
           )}
         </div>
       </div>
 
       {techniques?.implemented && (
         <div className="panel">
-          <h3>Techniques in this build</h3>
+          <h3>{t('techniques')}</h3>
           <ul className="compact">
-            {techniques.implemented.map((t) => (
-              <li key={t}>{t}</li>
+            {techniques.implemented.map((item) => (
+              <li key={item}>{item}</li>
             ))}
           </ul>
         </div>

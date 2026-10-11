@@ -2,6 +2,7 @@ from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from ml.clinical_screen import findrisc_screen
 from ml.model_loader import get_predictor
@@ -26,6 +27,7 @@ DATASET_NOTE = (
 class PredictView(APIView):
     """Public predict endpoint (optional auth attaches user/patient)."""
 
+    authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.AllowAny]
     throttle_classes = [PredictAnonThrottle, PredictUserThrottle]
 
