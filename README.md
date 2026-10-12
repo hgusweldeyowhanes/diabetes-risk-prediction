@@ -83,6 +83,23 @@ docker compose up --build
 
 Spins Postgres + backend (migrates + trains) + frontend.
 
+## Deploy (Render API + Vercel frontend)
+
+### Render
+
+1. Create a Render Blueprint from this repository and review the services in `render.yaml`.
+2. The blueprint creates a Python web service and a PostgreSQL database. The free database is temporary (Render deletes it after its free period); choose a persistent database plan before storing any real user data.
+3. Set the web service's `FRONTEND_ORIGIN` to the exact Vercel origin, for example `https://your-app.vercel.app` (no trailing slash). Render generates `SECRET_KEY` and supplies `DATABASE_URL`.
+4. The start command runs database migrations, trains/loads the model, then starts Gunicorn on Render's assigned port. The first model training can take a few minutes. Free web instances can sleep and have ephemeral filesystems, so model artifacts may need to be regenerated after restarts; use a suitable persistent storage/instance option or an intentionally managed model artifact for a production service.
+
+### Vercel
+
+1. Import this repository and set the project root to `frontend`.
+2. Use `npm run build` as the build command and `dist` as the output directory. `frontend/vercel.json` enables client-side route fallback.
+3. Add the `VITE_API_URL` environment variable with the Render API base URL, including `/api/v1`, for example `https://your-api.onrender.com/api/v1`. Redeploy after changing it; Vite embeds this value at build time.
+
+Do not store real patient information in a free/demo deployment. Predictions are screening estimates, not a diagnosis.
+
 ## ML (advanced stack)
 
 Calibrated stacking ensemble, SMOTE, iterative imputation, hybrid clinical rules, cost-sensitive weights, multi-tier risk, counterfactuals, ROC/calibration/PDP plots. Artifacts land in `backend/ml_artifacts/` and copies under `backend/static/models/`.

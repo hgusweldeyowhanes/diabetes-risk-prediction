@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: diabetes-risk-api
+    runtime: python
+    rootDir: backend
+    plan: free
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: python manage.py migrate --noinput && python manage.py train_model && gunicorn config.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 180
+    healthCheckPath: /api/v1/health/
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: diabetes-risk-db
+          property: connectionString
+      - key: FRONTEND_ORIGIN
+        sync: false
+
+databases:
+  - name: diabetes-risk-db
+    databaseName: diabetes
+    user: diabetes
+    plan: free
