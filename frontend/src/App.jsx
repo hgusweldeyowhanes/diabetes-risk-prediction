@@ -7,6 +7,9 @@ import Analytics from './pages/Analytics'
 import Login from './pages/Login'
 import Register from './pages/Register'
 import History from './pages/History'
+import Patients from './pages/Patients'
+import PatientDetail from './pages/PatientDetail'
+import Report from './pages/Report'
 
 export default function App() {
   return (
@@ -17,10 +20,14 @@ export default function App() {
           <Route path="/" element={<Home />} />
           <Route path="/predict" element={<Predict />} />
           <Route path="/results" element={<Results />} />
+          <Route path="/report" element={<Report />} />
+          <Route path="/report/:predictionId" element={<Report />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/history" element={<History />} />
+          <Route path="/patients" element={<Patients />} />
+          <Route path="/patients/:id" element={<PatientDetail />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

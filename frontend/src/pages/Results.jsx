@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
+import ClinicalReport from '../components/ClinicalReport'
 import Disclaimer from '../components/Disclaimer'
-import RiskDashboard from '../components/RiskDashboard'
-import ResultsDisplay from '../components/ResultsDisplay'
 import { useI18n } from '../i18n/I18nContext'
 
 export default function Results() {
@@ -17,6 +17,8 @@ export default function Results() {
     }
   }, [])
 
+  const reportPath = result?.prediction_id ? `/report/${result.prediction_id}` : '/report'
+
   return (
     <section className="page">
       <div className="page-head">
@@ -25,15 +27,18 @@ export default function Results() {
           <p className="lede short">{t('resultsLede')}</p>
         </div>
         {result && (
-          <button type="button" className="btn ghost no-print" onClick={() => window.print()}>
-            {t('print')}
-          </button>
+          <div className="btn-row no-print">
+            <Link className="btn primary" to={reportPath}>
+              {t('openReport')}
+            </Link>
+            <button type="button" className="btn ghost" onClick={() => window.print()}>
+              {t('print')}
+            </button>
+          </div>
         )}
       </div>
       <Disclaimer compact />
-      <RiskDashboard result={result} />
-      <ResultsDisplay result={result} />
-      {result?.dataset_note && <p className="muted small">{result.dataset_note}</p>}
+      <ClinicalReport result={result} />
     </section>
   )
 }

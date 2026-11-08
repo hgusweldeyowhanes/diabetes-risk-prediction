@@ -17,6 +17,7 @@ export default function Navigation() {
         <NavLink to="/">{t('navHome')}</NavLink>
         <NavLink to="/predict">{t('navAssess')}</NavLink>
         <NavLink to="/results">{t('navResults')}</NavLink>
+        {user && <NavLink to="/patients">{t('navPatients')}</NavLink>}
         {user && <NavLink to="/history">{t('navHistory')}</NavLink>}
         <NavLink to="/analytics">{t('navInsights')}</NavLink>
         {user ? (
