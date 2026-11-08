@@ -16,7 +16,7 @@ class PatientViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated, IsPatientOwner]
 
     def get_queryset(self):
-        latest = Prediction.objects.filter(patient_id=OuterRef("pk")).order_by("-created_at")
+        latest = Prediction.objects.filter(patient_id=OuterRef("pk")).order_by("-created_at", "-id")
         return (
             Patient.objects.filter(created_by=self.request.user)
             .annotate(
@@ -25,6 +25,7 @@ class PatientViewSet(viewsets.ModelViewSet):
                 latest_risk_level=Subquery(latest.values("risk_level")[:1]),
                 latest_prediction_at=Subquery(latest.values("created_at")[:1]),
             )
+            .order_by("-updated_at", "-id")
         )
 
     def perform_create(self, serializer):
