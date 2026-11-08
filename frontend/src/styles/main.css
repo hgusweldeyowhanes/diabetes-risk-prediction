@@ -221,19 +221,6 @@ th, td { text-align: left; padding: 0.45rem 0.3rem; border-bottom: 1px solid var
   flex-wrap: wrap;
 }
 .btn-row { display: flex; gap: 0.6rem; flex-wrap: wrap; }
-.btn {
-  border: 0;
-  border-radius: 999px;
-  padding: 0.65rem 1.15rem;
-  font: inherit;
-  font-weight: 700;
-  cursor: pointer;
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-}
-.btn.primary { background: var(--teal); color: #fff; }
-.btn.ghost { background: #fff; color: var(--teal-deep); border: 1px solid var(--line); }
 .data-table-wrap { overflow-x: auto; }
 .data-table { width: 100%; }
 .patient-picker { max-width: 420px; margin-bottom: 1rem; }
