@@ -29,6 +29,15 @@ function rows(data) {
   return []
 }
 
+function query(params = {}) {
+  const search = new URLSearchParams()
+  Object.entries(params).forEach(([key, value]) => {
+    if (value !== undefined && value !== null && value !== '') search.append(key, value)
+  })
+  const text = search.toString()
+  return text ? `?${text}` : ''
+}
+
 export const api = {
   health: () => request('/health/'),
   predict: (body) =>
@@ -36,7 +45,9 @@ export const api = {
       method: 'POST',
       body: JSON.stringify(body),
     }),
-  history: () => request('/predictions/history/').then(rows),
+  history: (filters = {}) => request(`/predictions/history/${query(filters)}`).then(rows),
+  historyDetail: (id) => request(`/predictions/history/${id}/`),
+  historyTrend: (filters = {}) => request(`/predictions/history/trend/${query(filters)}`),
   activeModel: () => request('/predictions/models/active/'),
   me: () => request('/auth/me/'),
   register: (body) =>
@@ -49,6 +60,20 @@ export const api = {
       method: 'POST',
       body: JSON.stringify({ username, password }),
     }),
+  listPatients: () => request('/patients/').then(rows),
+  getPatient: (id) => request(`/patients/${id}/`),
+  createPatient: (body) =>
+    request('/patients/', {
+      method: 'POST',
+      body: JSON.stringify(body),
+    }),
+  updatePatient: (id, body) =>
+    request(`/patients/${id}/`, {
+      method: 'PATCH',
+      body: JSON.stringify(body),
+    }),
+  patientPredictions: (id) => request(`/patients/${id}/predictions/`),
+  patientTrend: (id) => request(`/patients/${id}/trend/`),
 }
 
 export default api

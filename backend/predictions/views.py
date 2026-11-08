@@ -127,12 +127,38 @@ class PredictView(APIView):
         )
 
 
+def _trend_point(prediction):
+    screening = prediction.screening or {}
+    return {
+        "prediction_id": prediction.id,
+        "created_at": prediction.created_at,
+        "probability": prediction.probability,
+        "glucose": prediction.glucose,
+        "bmi": prediction.bmi,
+        "risk_level": prediction.risk_level,
+        "screening_score": screening.get("score"),
+        "screening_label": screening.get("label"),
+    }
+
+
 class PredictionHistoryViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PredictionSerializer
     permission_classes = [permissions.IsAuthenticated, CanViewPrediction]
 
     def get_queryset(self):
-        return Prediction.objects.filter(user=self.request.user)
+        qs = Prediction.objects.filter(user=self.request.user)
+        patient_id = str(self.request.query_params.get("patient_id", "") or "").strip()
+        if patient_id.isdigit():
+            qs = qs.filter(
+                patient_id=int(patient_id),
+                patient__created_by=self.request.user,
+            )
+        return qs
+
+    @action(detail=False, methods=["get"])
+    def trend(self, request):
+        qs = self.get_queryset().order_by("created_at")
+        return Response([_trend_point(p) for p in qs])
 
 
 class MLModelViewSet(viewsets.ReadOnlyModelViewSet):
